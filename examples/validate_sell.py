@@ -22,5 +22,4 @@ app.add_routes(routes)
 
 
 if __name__ == "__main__":
-    app["_check_ip"] = False
     web.run_app(app, host="127.0.0.1", port=5000)
