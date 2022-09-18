@@ -1,5 +1,6 @@
 import typing
 import pydantic
+import datetime
 
 
 class User(pydantic.BaseModel):
@@ -7,9 +8,8 @@ class User(pydantic.BaseModel):
     telegram_id: str
     username: typing.Optional[str]
     balance: float
-    count_purchases: typing.Optional[int]
-    joined_date_timestamp: int
-    last_use_timestamp: int
+    joined_timestamp: datetime.datetime
+    last_use_timestamp: datetime.datetime
 
 
 class Product(pydantic.BaseModel):
