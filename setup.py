@@ -18,7 +18,7 @@ author = "tippisell"
 
 setuptools.setup(
     name=name,
-    version="0.1",
+    version="0.1.1",
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
