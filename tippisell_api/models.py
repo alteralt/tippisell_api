@@ -5,7 +5,7 @@ import datetime
 
 class User(pydantic.BaseModel):
     id: int
-    telegram_id: str
+    telegram_id: typing.Optional[int]
     username: typing.Optional[str]
     balance: float
     joined_timestamp: datetime.datetime
@@ -22,3 +22,8 @@ class Product(pydantic.BaseModel):
     min_buy: int
     max_buy: int
     is_infinitely: bool
+
+
+class HttpResponse(pydantic.BaseModel):
+    status_code: int
+    result: dict
