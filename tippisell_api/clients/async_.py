@@ -12,6 +12,7 @@ class Client(base.BaseClient):
     async def _request(self, method: methods.BaseMethod):
         method.prepare_shop_id(self.shop_id)
         method.prepare_api_key(self.api_key)
+        method.validate()
 
         async with aiohttp.ClientSession() as session:
             response = await session.request(**self._http_request_kwargs(method))

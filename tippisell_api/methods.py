@@ -25,7 +25,7 @@ class BaseMethod:
 
         for key in self.params or []:
             with contextlib.suppress(KeyError):
-                value = self.kwargs.pop(key)
+                value = self.kwargs.get(key)
                 if value is not None:
                     params[key] = value
 
