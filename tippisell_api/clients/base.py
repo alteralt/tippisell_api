@@ -1,4 +1,5 @@
 import http
+import typing
 
 from tippisell_api import methods, models, exceptions
 
@@ -13,6 +14,9 @@ class BaseClient:
     async def get_user(self, user_id=None, telegram_id=None) -> models.User:
         raise NotImplementedError
 
+    async def upload_goods(self, product_id: int, data: typing.List[str]) -> int:
+        raise NotImplementedError
+
     async def _request(self, method: methods.BaseMethod):
         raise NotImplementedError
 
@@ -20,6 +24,10 @@ class BaseClient:
         if "get" == method.http_method:
             kwargs = {
                 "params": method.get_params(),
+            }
+        elif "post" == method.http_method:
+            kwargs = {
+                "json": method.get_json()
             }
         else:
             raise NameError
@@ -35,4 +43,5 @@ class BaseClient:
             raise exceptions.InvalidApiKey
 
         if http_response.result["ok"] is False:
+            print(http_response.result["result"])
             raise exceptions.BaseTippisellException(http_response.result["message"])

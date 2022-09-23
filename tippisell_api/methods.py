@@ -6,6 +6,7 @@ class BaseMethod:
     http_method: typing.Literal["get", "post", "put", "delete"] = None
     path: str = None
     params: list = None
+    json: list = None
 
     def __init__(self, **kwargs):
         self.kwargs = kwargs
@@ -31,6 +32,17 @@ class BaseMethod:
 
         return params
 
+    def get_json(self) -> dict:
+        json_ = {}
+
+        for key in self.json or []:
+            with contextlib.suppress(KeyError):
+                value = self.kwargs.get(key)
+                if value is not None:
+                    json_[key] = value
+
+        return json_
+
     def get_headers(self) -> dict:
         return {"api-key": self._api_key}
 
@@ -45,3 +57,9 @@ class GetUser(BaseMethod):
 
     def validate(self):
         assert 1 < len(self.get_params())
+
+
+class UploadGoods(BaseMethod):
+    http_method = "post"
+    path = "/v2/product/upload"
+    json = ["product_id", "data", "shop_id"]
