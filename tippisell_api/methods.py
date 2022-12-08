@@ -63,3 +63,9 @@ class UploadGoods(BaseMethod):
     http_method = "post"
     path = "/v2/product/upload"
     json = ["product_id", "data", "shop_id"]
+
+
+class GetPurchases(BaseMethod):
+    http_method = "get"
+    path = "/v2/purchase/all"
+    params = ["user_id", "shop_id", "limit"]

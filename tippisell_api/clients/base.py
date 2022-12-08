@@ -5,8 +5,8 @@ from tippisell_api import methods, models, exceptions
 
 
 class BaseClient:
-    def __init__(self, shop_id: int, api_key: str):
-        self.shop_id = shop_id
+    def __init__(self, shop_id: typing.Union[str, int], api_key: str):
+        self.shop_id = str(shop_id)
         self.api_key = api_key
 
         self._base_url = "https://tippisell.xyz/api"
@@ -43,5 +43,4 @@ class BaseClient:
             raise exceptions.InvalidApiKey
 
         if http_response.result["ok"] is False:
-            print(http_response.result["result"])
             raise exceptions.BaseTippisellException(http_response.result["message"])

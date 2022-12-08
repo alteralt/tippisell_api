@@ -14,6 +14,10 @@ class Client(base.BaseClient):
         result = await self._request(methods.UploadGoods(product_id=product_id, data=data))
         return result["count"]
 
+    async def get_purchases(self, user_id: typing.Optional[typing.Union[str, int]] = None, limit=None):
+        result = await self._request(methods.GetPurchases(user_id=str(user_id), limit=limit))
+        return result
+
     async def _request(self, method: methods.BaseMethod):
         method.prepare_shop_id(self.shop_id)
         method.prepare_api_key(self.api_key)
