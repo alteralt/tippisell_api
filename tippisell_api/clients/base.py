@@ -26,9 +26,7 @@ class BaseClient:
                 "params": method.get_params(),
             }
         elif "post" == method.http_method:
-            kwargs = {
-                "json": method.get_json()
-            }
+            kwargs = {"json": method.get_json()}
         else:
             raise NameError
 

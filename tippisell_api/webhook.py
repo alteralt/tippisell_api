@@ -19,7 +19,8 @@ class WebhookRequestHandler(web.View):
         return web.json_response(response_data)
 
     async def validate_sale(
-            self, user: models.User, product: models.Product, data: typing.List[str]) -> typing.List[dict]:
+        self, user: models.User, product: models.Product, data: typing.List[str]
+    ) -> typing.List[dict]:
         raise NotImplementedError
 
     def check_ip(self) -> bool:
