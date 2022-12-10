@@ -1,11 +1,9 @@
 import os
 import setuptools
 
-if "requirements.txt" in os.listdir("."):
-    with open("requirements.txt", encoding="utf-8") as r:
-        requires = [i.strip() for i in r]  # Зависимости
-else:
-    requires = []
+
+with open("requirements.txt", encoding="utf-8") as r:
+    requires = [i.strip() for i in r]  # Зависимости
 
 
 with open("README.md", "r", encoding="utf-8") as f:
@@ -13,7 +11,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 
 name = "tippisell_api"
-author = "tippisell"
+author = "alteralt"
 
 
 setuptools.setup(
