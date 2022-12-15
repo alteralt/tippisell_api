@@ -1,4 +1,4 @@
-name: autoblack_on_push
+name: black
 on: [push, pull_request]
 jobs:
   build:
