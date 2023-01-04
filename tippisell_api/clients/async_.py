@@ -18,6 +18,10 @@ class Client(base.BaseClient):
         result = await self._request(methods.GetPurchases(user_id=str(user_id), limit=limit))
         return result
 
+    async def get_shop(self) -> models.Shop:
+        result = await self._request(methods.GetShop(shop_id=self.shop_id))
+        return models.Shop(**result)
+
     async def _request(self, method: methods.BaseMethod):
         method.prepare_shop_id(self.shop_id)
         method.prepare_api_key(self.api_key)

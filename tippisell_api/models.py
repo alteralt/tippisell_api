@@ -27,3 +27,10 @@ class Product(pydantic.BaseModel):
 class HttpResponse(pydantic.BaseModel):
     status_code: int
     result: dict
+
+
+class Shop(pydantic.BaseModel):
+    id: int
+    web_background: str
+    web_favicon: str
+    web_telegram_bot_link: bool
