@@ -13,7 +13,9 @@ class WebhookRequestHandler(web.View):
         response_data = {}
         if "pre_sell" == data["type"]:
             response_data["result"] = await self.validate_sale(
-                models.User(**data["user"]), models.Product(**data["product"]), data["data"]
+                models.User(**data["user"]),
+                models.Product(**data["product"]),
+                data["data"],
             )
 
         return web.json_response(response_data)

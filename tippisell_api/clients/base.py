@@ -25,7 +25,7 @@ class BaseClient:
             kwargs = {
                 "params": method.get_params(),
             }
-        elif "post" == method.http_method:
+        elif method.http_method in ["post", "delete"]:
             kwargs = {"json": method.get_json()}
         else:
             raise NameError
