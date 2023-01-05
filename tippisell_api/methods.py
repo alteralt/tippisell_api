@@ -13,11 +13,11 @@ class BaseMethod:
 
         self._api_key = None
 
-    def prepare_api_key(self, api_key: str):
+    def attach_api_key(self, api_key: str):
         self._api_key = api_key
         return self
 
-    def prepare_shop_id(self, shop_id: int):
+    def attach_shop_id(self, shop_id: int):
         self.kwargs["shop_id"] = shop_id
         return self
 
@@ -75,3 +75,32 @@ class GetShop(BaseMethod):
     http_method = "get"
     path = "/v2/shop"
     params = ["shop_id"]
+
+
+class GetProducts(BaseMethod):
+    http_method = "get"
+    path = "/v2/product/all"
+    params = ["offset", "limit", "order", "direction", "search", "shop_id"]
+
+
+class CreateProduct(BaseMethod):
+    http_method = "post"
+    path = "/v2/product"
+    json = [
+        "name",
+        "description",
+        "type",
+        "price",
+        "category_id",
+        "min_buy",
+        "max_buy",
+        "message_after_byu",
+        "is_infinitely",
+        "shop_id",
+    ]
+
+
+class DeleteProduct(BaseMethod):
+    http_method = "delete"
+    path = "/v2/product"
+    json = ["id", "shop_id"]

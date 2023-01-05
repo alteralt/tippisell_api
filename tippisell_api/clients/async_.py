@@ -22,13 +22,49 @@ class Client(base.BaseClient):
         result = await self._request(methods.GetShop(shop_id=self.shop_id))
         return models.Shop(**result)
 
+    async def get_products(self, offset: typing.Optional[int] = None, limit: typing.Optional[int] = None) -> dict:
+        result = await self._request(methods.GetProducts(shop_id=self.shop_id, offset=offset, limit=limit))
+        return result
+
+    async def create_product(
+        self,
+        name: str,
+        description: str,
+        product_type: typing.Literal["text", "file"],
+        price: float,
+        category_id: typing.Optional[int] = None,
+        min_buy: typing.Optional[int] = 1,
+        max_buy: typing.Optional[int] = 9999,
+        message_after_byu: typing.Optional[str] = None,
+        is_infinitely: bool = False,
+    ) -> dict:
+        result = await self._request(
+            methods.CreateProduct(
+                shop_id=self.shop_id,
+                name=name,
+                description=description,
+                type=product_type,
+                price=price,
+                category_id=category_id,
+                min_buy=min_buy,
+                max_buy=max_buy,
+                message_after_byu=message_after_byu,
+                is_infinitely=is_infinitely,
+            )
+        )
+        return result
+
+    async def delete_product(self, product_id: int):
+        await self._request(methods.DeleteProduct(id=product_id))
+
     async def _request(self, method: methods.BaseMethod):
-        method.prepare_shop_id(self.shop_id)
-        method.prepare_api_key(self.api_key)
+        method.attach_shop_id(self.shop_id)
+        method.attach_api_key(self.api_key)
         method.validate()
 
         async with aiohttp.ClientSession() as session:
-            response = await session.request(**self._http_request_kwargs(method))
+            data = self._http_request_kwargs(method)
+            response = await session.request(**data)
             await response.read()
 
         result = await response.json()
