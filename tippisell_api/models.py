@@ -34,3 +34,4 @@ class Shop(pydantic.BaseModel):
     web_background: str
     web_favicon: str
     web_telegram_bot_link: bool
+    bot_username: str
