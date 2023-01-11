@@ -104,3 +104,9 @@ class DeleteProduct(BaseMethod):
     http_method = "delete"
     path = "/v2/product"
     json = ["id", "shop_id"]
+
+
+class GetCountPositionsInProduct(BaseMethod):
+    http_method = "get"
+    path = "/v2/product/count-positions"
+    params = ["product_id", "shop_id"]
