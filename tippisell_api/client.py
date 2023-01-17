@@ -1,11 +1,18 @@
+import http
 import typing
+
 import aiohttp
 
-from . import base
-from tippisell_api import methods, models
+from tippisell_api import exceptions, methods, models
 
 
-class Client(base.BaseClient):
+class Client:
+    def __init__(self, shop_id: typing.Union[str, int], api_key: str):
+        self.shop_id = str(shop_id)
+        self.api_key = api_key
+
+        self._base_url = "https://tippisell.xyz/api"
+
     async def get_user(self, user_id=None, telegram_id=None) -> models.User:
         result = await self._request(
             methods.GetUser(user_id=user_id, telegram_id=telegram_id)
@@ -91,3 +98,26 @@ class Client(base.BaseClient):
         )
 
         return result["result"]
+
+    def _http_request_kwargs(self, method: methods.BaseMethod) -> dict:
+        if "get" == method.http_method:
+            kwargs = {
+                "params": method.get_params(),
+            }
+        elif method.http_method in ["post", "delete"]:
+            kwargs = {"json": method.get_json()}
+        else:
+            raise NameError
+
+        kwargs["method"] = method.http_method
+        kwargs["headers"] = method.get_headers()
+        kwargs["url"] = self._base_url + method.path
+        return kwargs
+
+    @classmethod
+    def _check_response(cls, http_response: models.HttpResponse):
+        if http.HTTPStatus.UNAUTHORIZED == http_response.status_code:
+            raise exceptions.InvalidApiKey
+
+        if http_response.result["ok"] is False:
+            raise exceptions.BaseTippisellException(http_response.result["message"])

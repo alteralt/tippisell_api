@@ -1,5 +1,5 @@
-import typing
 import contextlib
+import typing
 
 
 class BaseMethod:
@@ -17,7 +17,7 @@ class BaseMethod:
         self._api_key = api_key
         return self
 
-    def attach_shop_id(self, shop_id: int):
+    def attach_shop_id(self, shop_id: typing.Union[str, int]):
         self.kwargs["shop_id"] = shop_id
         return self
 
