@@ -1,8 +1,9 @@
 import http
 import typing
+
 import aiohttp
 
-from tippisell_api import methods, models, exceptions
+from tippisell_api import exceptions, methods, models
 
 
 class Client:

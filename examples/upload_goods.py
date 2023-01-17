@@ -1,6 +1,6 @@
 import asyncio
-from tippisell_api.clients.async_ import Client
 
+from tippisell_api.clients.async_ import Client
 
 shop_id = 1
 api_key = "api_key"

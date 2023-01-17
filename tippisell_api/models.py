@@ -1,6 +1,7 @@
-import typing
-import pydantic
 import datetime
+import typing
+
+import pydantic
 
 
 class User(pydantic.BaseModel):
