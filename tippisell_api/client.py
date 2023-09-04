@@ -29,7 +29,7 @@ class Client:
         self, user_id: typing.Optional[typing.Union[str, int]] = None, limit=None
     ):
         result = await self._request(
-            methods.GetPurchases(user_id=str(user_id), limit=limit)
+            methods.GetPurchases(user_id=user_id, limit=limit)
         )
         return result
 
@@ -42,6 +42,20 @@ class Client:
     ) -> dict:
         result = await self._request(
             methods.GetProducts(shop_id=self.shop_id, offset=offset, limit=limit)
+        )
+        return result
+
+    async def get_categories(
+        self, offset: typing.Optional[int] = None, limit: typing.Optional[int] = None
+    ) -> dict:
+        result = await self._request(
+            path="/v2/category/all",
+            http_method="get",
+            params={
+                key: value
+                for key, value in {"offset": offset, "limit": limit, "shop_id": self.shop_id}.items()
+                if value is not None
+            }
         )
         return result
 
@@ -82,15 +96,26 @@ class Client:
         )
         return result["count"]
 
-    async def _request(self, method: methods.BaseMethod):
-        method.attach_shop_id(self.shop_id)
-        method.attach_api_key(self.api_key)
-        method.validate()
+    async def _request(
+            self,
+            method: typing.Optional[methods.BaseMethod] = None,
+            path: typing.Optional[str] = None,
+            http_method: typing.Optional[typing.Literal["get", "post"]] = None,
+            **kwargs
+    ):
+        if method is not None:
+            method.attach_shop_id(self.shop_id)
+            method.attach_api_key(self.api_key)
+            method.validate()
 
-        async with aiohttp.ClientSession() as session:
-            data = self._http_request_kwargs(method)
-            response = await session.request(**data)
-            await response.read()
+            async with aiohttp.ClientSession() as session:
+                data = self._http_request_kwargs(method)
+                response = await session.request(**data)
+                await response.read()
+        else:
+            async with aiohttp.ClientSession(headers={"api-key": self.api_key}) as session:
+                response = await session.request(http_method, self._base_url + path, **kwargs)
+                await response.read()
 
         result = await response.json()
         self._check_response(
