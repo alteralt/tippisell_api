@@ -28,9 +28,7 @@ class Client:
     async def get_purchases(
         self, user_id: typing.Optional[typing.Union[str, int]] = None, limit=None
     ):
-        result = await self._request(
-            methods.GetPurchases(user_id=user_id, limit=limit)
-        )
+        result = await self._request(methods.GetPurchases(user_id=user_id, limit=limit))
         return result
 
     async def get_shop(self) -> models.Shop:
@@ -53,9 +51,13 @@ class Client:
             http_method="get",
             params={
                 key: value
-                for key, value in {"offset": offset, "limit": limit, "shop_id": self.shop_id}.items()
+                for key, value in {
+                    "offset": offset,
+                    "limit": limit,
+                    "shop_id": self.shop_id,
+                }.items()
                 if value is not None
-            }
+            },
         )
         return result
 
@@ -97,11 +99,11 @@ class Client:
         return result["count"]
 
     async def _request(
-            self,
-            method: typing.Optional[methods.BaseMethod] = None,
-            path: typing.Optional[str] = None,
-            http_method: typing.Optional[typing.Literal["get", "post"]] = None,
-            **kwargs
+        self,
+        method: typing.Optional[methods.BaseMethod] = None,
+        path: typing.Optional[str] = None,
+        http_method: typing.Optional[typing.Literal["get", "post"]] = None,
+        **kwargs
     ):
         if method is not None:
             method.attach_shop_id(self.shop_id)
@@ -113,8 +115,12 @@ class Client:
                 response = await session.request(**data)
                 await response.read()
         else:
-            async with aiohttp.ClientSession(headers={"api-key": self.api_key}) as session:
-                response = await session.request(http_method, self._base_url + path, **kwargs)
+            async with aiohttp.ClientSession(
+                headers={"api-key": self.api_key}
+            ) as session:
+                response = await session.request(
+                    http_method, self._base_url + path, **kwargs
+                )
                 await response.read()
 
         result = await response.json()
