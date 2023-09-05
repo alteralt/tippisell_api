@@ -49,15 +49,19 @@ class Client:
         result = await self._request(
             path="/v2/category/all",
             http_method="get",
-            params={
-                key: value
-                for key, value in {
-                    "offset": offset,
-                    "limit": limit,
-                    "shop_id": self.shop_id,
-                }.items()
-                if value is not None
-            },
+            params=self._clear_dict(
+                {"offset": offset, "limit": limit, "shop_id": self.shop_id}
+            ),
+        )
+        return result
+
+    async def get_positions(self, product_id: typing.Union[str, int]):
+        result = await self._request(
+            path="/v2/position/all",
+            http_method="get",
+            params=self._clear_dict(
+                {"shop_id": self.shop_id, "product_id": product_id}
+            ),
         )
         return result
 
@@ -152,3 +156,7 @@ class Client:
 
         if http_response.result["ok"] is False:
             raise exceptions.BaseTippisellException(http_response.result["message"])
+
+    @classmethod
+    def _clear_dict(cls, data: dict) -> dict:
+        return {key: value for key, value in data.items() if value is not None}
