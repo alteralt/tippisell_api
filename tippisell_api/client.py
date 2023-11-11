@@ -106,7 +106,7 @@ class Client:
         method: typing.Optional[methods.BaseMethod] = None,
         path: typing.Optional[str] = None,
         http_method: typing.Optional[typing.Literal["get", "post"]] = None,
-        **kwargs
+        **kwargs,
     ):
         if method is not None:
             method.attach_shop_id(self.shop_id)

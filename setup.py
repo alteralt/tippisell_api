@@ -1,6 +1,5 @@
-import os
-
 import setuptools
+
 
 with open("requirements.txt", encoding="utf-8") as r:
     requires = [i.strip() for i in r]  # Зависимости
