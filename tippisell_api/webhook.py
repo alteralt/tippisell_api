@@ -1,5 +1,4 @@
 import typing
-
 from aiohttp import web
 
 from tippisell_api import models
