@@ -12,7 +12,9 @@ class User(pydantic.BaseModel):
     purchases_amount: typing.Optional[decimal.Decimal] = pydantic.Field(
         None, description="Сумма покупок"
     )
-    refills_amount: typing.Optional[decimal.Decimal] = pydantic.Field(None, description="Сумма пополнений")
+    refills_amount: typing.Optional[decimal.Decimal] = pydantic.Field(
+        None, description="Сумма пополнений"
+    )
     joined_timestamp: datetime.datetime
     last_use_timestamp: datetime.datetime
 
@@ -46,5 +48,7 @@ class Shop(pydantic.BaseModel):
 
 
 class GetUsersResponse(pydantic.BaseModel):
-    total_count: pydantic.NonNegativeInt = pydantic.Field(ge=0, description="Общее количество пользователей")
+    total_count: pydantic.NonNegativeInt = pydantic.Field(
+        ge=0, description="Общее количество пользователей"
+    )
     data: typing.List[User]
