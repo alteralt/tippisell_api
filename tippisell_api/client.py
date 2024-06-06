@@ -1,6 +1,7 @@
 import http
 import typing
 import aiohttp
+import decimal
 
 from tippisell_api import exceptions, methods, models
 
@@ -100,6 +101,46 @@ class Client:
             methods.GetCountPositionsInProduct(product_id=product_id)
         )
         return result["count"]
+
+    async def get_users(
+            self, offset: typing.Optional[int] = None,
+            limit: typing.Optional[int] = None,
+            order: typing.Optional[str] = None,
+            direction: typing.Optional[typing.Literal["asc", "desc"]] = None,
+            search: typing.Optional[str] = None,
+            add_purchases_amount: typing.Optional[bool] = None,
+            add_refills_amount: typing.Optional[bool] = None
+    ) -> models.GetUsersResponse:
+        if add_purchases_amount is not None:
+            add_purchases_amount = int(add_purchases_amount)
+        if add_refills_amount is not None:
+            add_refills_amount = int(add_refills_amount)
+        params = {
+            "offset": offset,
+            "limit": limit,
+            "order": order,
+            "direction": direction,
+            "search": search,
+            "shop_id": self.shop_id,
+            "add_purchases_amount": add_purchases_amount,
+            "add_refills_amount": add_refills_amount
+        }
+        result = await self._request(
+            path="/v2/user/all",
+            http_method="get",
+            params=self._clear_dict(params),
+        )
+        return models.GetUsersResponse(**result)
+
+    async def user_balance_decrease(
+            self, user_id: int, amount: typing.Union[int, float, decimal.Decimal]
+    ) -> models.User:
+        result = await self._request(
+            path="/v2/user/{}/decrease-balance".format(user_id),
+            http_method="put",
+            json={"amount": str(amount), "shop_id": self.shop_id},
+        )
+        return models.User(**result)
 
     async def _request(
         self,
