@@ -52,3 +52,27 @@ class GetUsersResponse(pydantic.BaseModel):
         ge=0, description="Общее количество пользователей"
     )
     data: typing.List[User]
+
+
+class Purchase(pydantic.BaseModel):
+    id: int
+    product: Product
+    user: User
+    sum: decimal.Decimal
+    data: typing.List[str]
+    timestamp: datetime.datetime
+
+
+class RequestOnMoneyBack(pydantic.BaseModel):
+    id: int
+    purchase: Purchase
+    count_goods_invalid: int
+    is_satisfied: typing.Optional[bool]
+    timestamp: datetime.datetime
+
+
+class GetMoneyBackRequestsResponse(pydantic.BaseModel):
+    total_count: pydantic.NonNegativeInt = pydantic.Field(
+        ge=0, description="Общее количество заявок"
+    )
+    data: typing.List[RequestOnMoneyBack]

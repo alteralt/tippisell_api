@@ -143,6 +143,32 @@ class Client:
         )
         return models.User(**result)
 
+    async def get_request_on_money_backs(
+            self,
+            offset: typing.Optional[int] = None,
+            limit: typing.Optional[int] = None,
+            order: typing.Optional[str] = None,
+            direction: typing.Optional[typing.Literal["asc", "desc"]] = None,
+            search: typing.Optional[str] = None,
+            user_id: typing.Optional[int] = None,
+    ) -> models.GetMoneyBackRequestsResponse:
+        params = {
+            "offset": offset,
+            "limit": limit,
+            "order": order,
+            "direction": direction,
+            "search": search,
+            "shop_id": self.shop_id,
+            "user_id": user_id,
+        }
+
+        result = await self._request(
+            path="/v2/request-on-money-back/all",
+            http_method="get",
+            params=self._clear_dict(params),
+        )
+        return models.GetMoneyBackRequestsResponse(**result)
+
     async def _request(
         self,
         method: typing.Optional[methods.BaseMethod] = None,
