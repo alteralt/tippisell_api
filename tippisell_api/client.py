@@ -144,13 +144,13 @@ class Client:
         return models.User(**result)
 
     async def get_request_on_money_backs(
-            self,
-            offset: typing.Optional[int] = None,
-            limit: typing.Optional[int] = None,
-            order: typing.Optional[str] = None,
-            direction: typing.Optional[typing.Literal["asc", "desc"]] = None,
-            search: typing.Optional[str] = None,
-            user_id: typing.Optional[int] = None,
+        self,
+        offset: typing.Optional[int] = None,
+        limit: typing.Optional[int] = None,
+        order: typing.Optional[str] = None,
+        direction: typing.Optional[typing.Literal["asc", "desc"]] = None,
+        search: typing.Optional[str] = None,
+        user_id: typing.Optional[int] = None,
     ) -> models.GetMoneyBackRequestsResponse:
         params = {
             "offset": offset,
