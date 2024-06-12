@@ -7,11 +7,16 @@ from tippisell_api import exceptions, methods, models
 
 
 class Client:
-    def __init__(self, shop_id: typing.Union[str, int], api_key: str):
+    def __init__(
+        self,
+        shop_id: typing.Union[str, int],
+        api_key: str,
+        endpoint: str = "https://tippisell.xyz/api",
+    ):
         self.shop_id = str(shop_id)
         self.api_key = api_key
 
-        self._base_url = "https://tippisell.xyz/api"
+        self._endpoint = endpoint
 
     async def get_user(self, user_id=None, telegram_id=None) -> models.User:
         result = await self._request(
@@ -190,7 +195,7 @@ class Client:
                 headers={"api-key": self.api_key}
             ) as session:
                 response = await session.request(
-                    http_method, self._base_url + path, **kwargs
+                    http_method, self._endpoint + path, **kwargs
                 )
                 await response.read()
 
@@ -213,7 +218,7 @@ class Client:
 
         kwargs["method"] = method.http_method
         kwargs["headers"] = method.get_headers()
-        kwargs["url"] = self._base_url + method.path
+        kwargs["url"] = self._endpoint + method.path
         return kwargs
 
     @classmethod
