@@ -76,3 +76,24 @@ class GetMoneyBackRequestsResponse(pydantic.BaseModel):
         ge=0, description="Общее количество заявок"
     )
     data: typing.List[RequestOnMoneyBack]
+
+
+class CheckActivator(pydantic.BaseModel):
+    user: User
+    timestamp: datetime.datetime
+
+
+class Check(pydantic.BaseModel):
+    id: int
+    code: str
+    activations: int
+    amount: decimal.Decimal
+    only_for_new_users: bool
+    activators: typing.List[CheckActivator]
+
+
+class GetChecksResponse(pydantic.BaseModel):
+    total_count: pydantic.NonNegativeInt = pydantic.Field(
+        ge=0, description="Общее количество чеков"
+    )
+    data: typing.List[Check]

@@ -174,6 +174,27 @@ class Client:
         )
         return models.GetMoneyBackRequestsResponse(**result)
 
+    async def get_checks(
+        self,
+        offset: typing.Optional[int] = None,
+        limit: typing.Optional[int] = None,
+        order: typing.Optional[str] = None,
+        direction: typing.Optional[typing.Literal["asc", "desc"]] = None,
+    ) -> models.GetChecksResponse:
+        params = {
+            "offset": offset,
+            "limit": limit,
+            "order": order,
+            "direction": direction,
+            "shop_id": self.shop_id,
+        }
+        result = await self._request(
+            path="/v2/check/all",
+            http_method="get",
+            params=self._clear_dict(params),
+        )
+        return models.GetChecksResponse(**result)
+
     async def _request(
         self,
         method: typing.Optional[methods.BaseMethod] = None,
