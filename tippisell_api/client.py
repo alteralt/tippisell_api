@@ -29,6 +29,23 @@ class Client:
             methods.UploadGoods(product_id=product_id, data=data)
         )
         return result["count"]
+    
+    async def upload_goods_files(
+        self, product_id: int, file: io.BytesIO, file_name: str
+    ) -> int:
+        data = aiohttp.FormData()
+        data.add_field("file", file, filename=file_name)
+        data.add_field(
+            "payload",
+            json.dumps(
+                self._clear_dict({"product_id": product_id, "shop_id": self.shop_id})
+            ),
+        )
+
+        result = await self._request(
+            path="/v2/product/upload-file", http_method="post", data=data
+        )
+        return result["count"]
 
     async def get_purchases(
         self, user_id: typing.Optional[typing.Union[str, int]] = None, limit=None
