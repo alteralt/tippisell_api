@@ -29,7 +29,7 @@ class Client:
             methods.UploadGoods(product_id=product_id, data=data)
         )
         return result["count"]
-    
+
     async def upload_goods_files(
         self, product_id: int, file: io.BytesIO, file_name: str
     ) -> int:
