@@ -225,7 +225,9 @@ class Client:
         self,
         method: typing.Optional[methods.BaseMethod] = None,
         path: typing.Optional[str] = None,
-        http_method: typing.Optional[typing.Literal["get", "post", "put", "delete"]] = None,
+        http_method: typing.Optional[
+            typing.Literal["get", "post", "put", "delete"]
+        ] = None,
         **kwargs,
     ):
         if method is not None:
