@@ -214,11 +214,18 @@ class Client:
         )
         return models.GetChecksResponse(**result)
 
+    async def positions_delete_by_product_id(self, product_id: int) -> int:
+        path = "/v2/position/{}/by-product-id".format(product_id)
+        result = await self._request(
+            path=path, http_method="delete", json={"shop_id": self.shop_id}
+        )
+        return result["count"]
+
     async def _request(
         self,
         method: typing.Optional[methods.BaseMethod] = None,
         path: typing.Optional[str] = None,
-        http_method: typing.Optional[typing.Literal["get", "post", "put"]] = None,
+        http_method: typing.Optional[typing.Literal["get", "post", "put", "delete"]] = None,
         **kwargs,
     ):
         if method is not None:
