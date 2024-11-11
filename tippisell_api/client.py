@@ -221,6 +221,25 @@ class Client:
         )
         return result["count"]
 
+    async def create_category(
+        self, name: str, description: str, parent_id: typing.Optional[int] = None
+    ):
+        path = "/category"
+        payload = {
+            "shop_id": self.shop_id,
+            "name": name,
+            "description": description,
+            "parent_id": parent_id,
+        }
+
+        async with aiohttp.ClientSession(headers={"api-key": self.api_key}) as session:
+            response = await session.post(
+                self._endpoint + path, json=self._clear_dict(payload)
+            )
+            await response.read()
+
+        return await response.json()
+
     async def _request(
         self,
         method: typing.Optional[methods.BaseMethod] = None,
