@@ -38,6 +38,7 @@ class HttpResponse(pydantic.BaseModel):
 
 class Shop(pydantic.BaseModel):
     id: int
+    web: bool
     web_background: str
     web_favicon: str
     web_telegram_bot_link: bool
@@ -45,6 +46,8 @@ class Shop(pydantic.BaseModel):
     uuid: pydantic.UUID4
     currency: str
     create_timestamp: datetime.datetime
+    tg_bot_token: typing.Optional[str] = None
+    is_blocked: bool
 
 
 class GetUsersResponse(pydantic.BaseModel):
