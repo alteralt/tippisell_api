@@ -71,12 +71,6 @@ class GetPurchases(BaseMethod):
     params = ["user_id", "shop_id", "limit"]
 
 
-class GetShop(BaseMethod):
-    http_method = "get"
-    path = "/v2/shop"
-    params = ["shop_id"]
-
-
 class GetProducts(BaseMethod):
     http_method = "get"
     path = "/v2/product/all"

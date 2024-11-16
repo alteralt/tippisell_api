@@ -11,11 +11,14 @@ from tippisell_api import exceptions, methods, models
 class Client:
     def __init__(
         self,
-        shop_id: typing.Union[str, int],
+        shop_id: typing.Optional[typing.Union[str, int]],
         api_key: str,
         endpoint: str = "https://tippisell.xyz/api",
     ):
-        self.shop_id = str(shop_id)
+        if shop_id is not None:
+            self.shop_id = str(shop_id)
+
+        self.shop_id = shop_id
         self.api_key = api_key
 
         self._endpoint = endpoint
@@ -55,8 +58,17 @@ class Client:
         result = await self._request(methods.GetPurchases(user_id=user_id, limit=limit))
         return result
 
-    async def get_shop(self) -> models.Shop:
-        result = await self._request(methods.GetShop(shop_id=self.shop_id))
+    async def get_shop(self, shop_id: typing.Optional[int] = None) -> models.Shop:
+        if shop_id is not None and self.shop_id is None:
+            shop_id = str(shop_id)
+        if shop_id is None and self.shop_id is None:
+            raise RuntimeError("shop_id is None")
+        if shop_id is None and self.shop_id is not None:
+            shop_id = self.shop_id
+
+        result = await self._request(
+            path="/v2/shop", http_method="get", params={"shop_id": shop_id}
+        )
         return models.Shop(**result)
 
     async def get_products(
