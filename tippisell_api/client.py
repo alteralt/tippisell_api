@@ -250,6 +250,13 @@ class Client:
         )
         return models.GetChecksResponse(**result)
 
+    async def check_delete(self, check_id: int):
+        path = "/v2/check/{}".format(check_id)
+        result = await self._request(
+            path=path, http_method="delete", json={"shop_id": self.shop_id}
+        )
+        return result
+
     async def positions_delete_by_product_id(self, product_id: int) -> int:
         path = "/v2/position/{}/by-product-id".format(product_id)
         result = await self._request(
