@@ -15,6 +15,7 @@ class User(pydantic.BaseModel):
     refills_amount: typing.Optional[decimal.Decimal] = pydantic.Field(
         None, description="Сумма пополнений"
     )
+    language: typing.Literal["ru", "en"]
     joined_timestamp: datetime.datetime
     last_use_timestamp: datetime.datetime
 
