@@ -82,6 +82,13 @@ class GetMoneyBackRequestsResponse(pydantic.BaseModel):
     data: typing.List[RequestOnMoneyBack]
 
 
+class GetPurchasesResponse(pydantic.BaseModel):
+    total_count: pydantic.NonNegativeInt = pydantic.Field(
+        ge=0, description="Общее количество покупок"
+    )
+    data: typing.List[Purchase]
+
+
 class CheckActivator(pydantic.BaseModel):
     user: User
     timestamp: datetime.datetime

@@ -91,6 +91,18 @@ class Client:
         )
         return result
 
+    async def get_refills(
+        self,
+        offset: typing.Optional[int] = None,
+        limit: typing.Optional[int] = None,
+    ) -> dict:
+        path = "/v2/refill/all"
+        params = {"offset": offset, "limit": limit, "shop_id": self.shop_id}
+        result = await self._request(
+            path=path, http_method="get", params=self._clear_dict(params)
+        )
+        return result
+
     async def get_categories(
         self, offset: typing.Optional[int] = None, limit: typing.Optional[int] = None
     ) -> dict:
@@ -263,6 +275,21 @@ class Client:
             await response.read()
 
         return await response.json()
+
+    async def get_pre_orders(self, limit: typing.Optional[int] = None) -> dict:
+        path = "/v2/pre-order/all"
+        params = {"limit": limit, "shop_id": self.shop_id}
+        result = await self._request(
+            path=path, http_method="get", params=self._clear_dict(params)
+        )
+        return result
+
+    async def pre_order_cancel(self, pre_order_id: int) -> dict:
+        path = "/v2/pre-order/cancel"
+        payload = {"pre_order_id": pre_order_id, "shop_id": self.shop_id}
+        await self._request(
+            path=path, http_method="put", json=self._clear_dict(payload)
+        )
 
     async def _request(
         self,
