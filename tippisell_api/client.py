@@ -53,10 +53,22 @@ class Client:
         return result["count"]
 
     async def get_purchases(
-        self, user_id: typing.Optional[typing.Union[str, int]] = None, limit=None
-    ):
-        result = await self._request(methods.GetPurchases(user_id=user_id, limit=limit))
-        return result
+        self,
+        user_id: typing.Optional[typing.Union[str, int]] = None,
+        limit: typing.Optional[int] = None,
+        offset: typing.Optional[int] = None,
+    ) -> models.GetPurchasesResponse:
+        path = "/v2/purchase/all"
+        params = {
+            "user_id": user_id,
+            "limit": limit,
+            "offset": offset,
+            "shop_id": self.shop_id,
+        }
+        result = await self._request(
+            path=path, http_method="get", params=self._clear_dict(params)
+        )
+        return models.GetPurchasesResponse(**result)
 
     async def get_shop(self, shop_id: typing.Optional[int] = None) -> models.Shop:
         if shop_id is not None and self.shop_id is None:
