@@ -57,6 +57,7 @@ class Client:
         user_id: typing.Optional[typing.Union[str, int]] = None,
         limit: typing.Optional[int] = None,
         offset: typing.Optional[int] = None,
+        direction: typing.Optional[typing.Literal["asc", "desc"]] = None,
     ) -> models.GetPurchasesResponse:
         path = "/v2/purchase/all"
         params = {
@@ -64,6 +65,7 @@ class Client:
             "limit": limit,
             "offset": offset,
             "shop_id": self.shop_id,
+            "direction": direction,
         }
         result = await self._request(
             path=path, http_method="get", params=self._clear_dict(params)
