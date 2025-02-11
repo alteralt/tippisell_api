@@ -27,6 +27,9 @@ class BaseMethod:
         for key in self.params or []:
             with contextlib.suppress(KeyError):
                 value = self.kwargs.get(key)
+                if isinstance(value, bool):
+                    value = int(value)
+
                 if value is not None:
                     params[key] = value
 
@@ -68,7 +71,15 @@ class UploadGoods(BaseMethod):
 class GetProducts(BaseMethod):
     http_method = "get"
     path = "/v2/product/all"
-    params = ["offset", "limit", "order", "direction", "search", "shop_id"]
+    params = [
+        "offset",
+        "limit",
+        "order",
+        "direction",
+        "search",
+        "shop_id",
+        "with_count_positions",
+    ]
 
 
 class CreateProduct(BaseMethod):

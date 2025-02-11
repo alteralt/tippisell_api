@@ -86,10 +86,18 @@ class Client:
         return models.Shop(**result)
 
     async def get_products(
-        self, offset: typing.Optional[int] = None, limit: typing.Optional[int] = None
+        self,
+        offset: typing.Optional[int] = None,
+        limit: typing.Optional[int] = None,
+        with_count_positions: typing.Optional[bool] = None,
     ) -> dict:
         result = await self._request(
-            methods.GetProducts(shop_id=self.shop_id, offset=offset, limit=limit)
+            methods.GetProducts(
+                shop_id=self.shop_id,
+                offset=offset,
+                limit=limit,
+                with_count_positions=with_count_positions,
+            )
         )
         return result
 
