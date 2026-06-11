@@ -13,7 +13,7 @@ class Client:
         self,
         shop_id: typing.Optional[typing.Union[str, int]],
         api_key: str,
-        endpoint: str = "https://tippisell.xyz/api",
+        endpoint: str = "https://tippisell.cc/api",
     ):
         if shop_id is not None:
             self.shop_id = str(shop_id)
