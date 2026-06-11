@@ -15,7 +15,7 @@ author = "alteralt"
 
 setuptools.setup(
     name=name,
-    version="0.6.17",
+    version="0.6.18",
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
@@ -35,6 +35,11 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
+        "Programming Language :: Python :: 3.15",
     ],
     project_urls={"Source": "https://github.com/{}/{}".format(author, name)},
 )
