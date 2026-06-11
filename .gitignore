@@ -131,3 +131,11 @@ dmypy.json
 
 .idea/
 /test.py
+
+# AI tooling
+.ai-factory/
+.ai-factory.json
+.claude/
+.mcp.json
+AGENTS.md
+skills-lock.json
